@@ -57,14 +57,14 @@ class _UserScreenState extends State<UserScreen> {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              print('my name is pressed');
+                              print('my address here');
                             }),
                     ]),
               ),
               SizedBox(
                 height: 2,
               ),
-              TextWidget(text: 'mynameemail@.com', color: color, textSize: 16),
+              TextWidget(text: 'Email@email.com', color: color, textSize: 16),
               SizedBox(
                 height: 20,
               ),
@@ -136,7 +136,9 @@ class _UserScreenState extends State<UserScreen> {
               _ListTiles(
                 title: 'Logout',
                 icon: IconlyLight.logout,
-                onPressed: () {},
+                onPressed: () {
+                  _showLogoutDailog();
+                },
                 color: color,
               ),
             ],
@@ -146,6 +148,44 @@ class _UserScreenState extends State<UserScreen> {
     ));
   }
 
+  Future<void> _showLogoutDailog() async {
+    await showDialog(
+        context: context,
+        builder: (context){
+      return AlertDialog(
+        title: Row(children: [
+          Image.asset('assets/images/warning-sign.png',
+          height: 20,
+          width: 20,
+          fit: BoxFit.fill,
+          ),
+          SizedBox(width: 8,),
+          Text('Sign out')
+        ]),
+        content: Text('Do you wanna sign out?'),
+        actions: [
+          TextButton(onPressed: (){
+            if(Navigator.canPop(context)){
+              Navigator.canPop(context);
+            }
+          },
+              child: TextWidget(
+                color: Colors.cyan,
+                text: 'Cancel',
+                textSize: 18,
+              )
+          ),
+          TextButton(onPressed: (){},
+              child: TextWidget(
+                color: Colors.red,
+                text: 'Ok',
+                textSize: 18,
+              )
+          )
+        ],
+      );
+    });
+  }
   Future<void> _showAddressDailog() async{
     await showDialog(
     context: context,
@@ -153,9 +193,9 @@ class _UserScreenState extends State<UserScreen> {
       return AlertDialog(
         title: Text('Update'),
         content: TextField(
-          onChanged: (value) {
-            // _addressTextController.text;
-          },
+          // onChanged: (value) {
+          //   print('_addressTextController.text ${_addressTextController.text}');
+          // },
           controller: _addressTextController,
           maxLines: 5,
           decoration:
